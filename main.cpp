@@ -40,6 +40,24 @@ int	main(int ac, char **av)
 		return (1);
 	}	
 
+	cpp_file << "#include \"" << hpp_name << "\"\n" << std::endl;
+	cpp_file <<  "void\t" <<av[1] << "::" << av[1] << "(void)" << std::endl;
+	cpp_file <<  "{" << std::endl;
+	cpp_file <<  "\t// You can put something here or not, I don't care, it's your program" << std::endl;
+	cpp_file <<  "}" << std::endl << std::endl;
+	cpp_file <<  "void\t" <<av[1] << "::" << "~"  << av[1] << "(void)" << std::endl;
+	cpp_file <<  "{" << std::endl;
+	cpp_file <<  "\t// You can put something here or not, I don't care, it's your program" << std::endl;
+	cpp_file <<  "}" << std::endl;
+
+	hpp_file << "class\t" << av[1] << std::endl;
+	hpp_file << "{" << std::endl;
+	hpp_file << "\tprivate:\n" << std::endl;
+	hpp_file << "\tpublic:" << std::endl;
+	hpp_file << "\t\t" << av[1] << "(void);" << std::endl;
+	hpp_file << "\t\t" << "~" << av[1] << "(void);" << std::endl << std::endl;
+	hpp_file << "};" << std::endl;
+
 	cpp_file.close();
 	hpp_file.close();
 	return (0);

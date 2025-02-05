@@ -3,6 +3,12 @@
 
 typedef std::string string;
 
+void	str_toupper(string *str)
+{
+	for (unsigned long i = 0; i < (*str).length(); ++i)
+		(*str).at(i) = std::toupper((*str).at(i));
+}
+
 int	main(int ac, char **av)
 {
 	if (ac != 2)
@@ -10,10 +16,11 @@ int	main(int ac, char **av)
 		std::cerr << " Usage: Klass <ClassName>" << std::endl;
 		return (1);
 	}
+	string			class_name = av[1];
 	std::fstream	cpp_file;
 	std::fstream	hpp_file;
-	string			cpp_name = std::string(av[1]) + ".cpp";
-	string			hpp_name = std::string(av[1]) + ".hpp";
+	string			cpp_name = class_name + ".cpp";
+	string			hpp_name = class_name + ".hpp";
 
 	std::ifstream	file1(cpp_name.c_str());
 	if (file1.is_open())
@@ -41,22 +48,27 @@ int	main(int ac, char **av)
 	}	
 
 	cpp_file << "#include \"" << hpp_name << "\"\n" << std::endl;
-	cpp_file <<  "void\t" <<av[1] << "::" << av[1] << "(void)" << std::endl;
-	cpp_file <<  "{" << std::endl;
-	cpp_file <<  "\t// You can put something here or not, I don't care, it's your program" << std::endl;
-	cpp_file <<  "}" << std::endl << std::endl;
-	cpp_file <<  "void\t" <<av[1] << "::" << "~"  << av[1] << "(void)" << std::endl;
-	cpp_file <<  "{" << std::endl;
-	cpp_file <<  "\t// You can put something here or not, I don't care, it's your program" << std::endl;
+	cpp_file << class_name << "::" << class_name << "(void)" << std::endl;
+	cpp_file << "{" << std::endl;
+	cpp_file << "\t// You can put something here or not, I don't care, it's your program" << std::endl;
+	cpp_file << "}" << std::endl << std::endl;
+	cpp_file << class_name << "::" << "~"  << class_name << "(void)" << std::endl;
+	cpp_file << "{" << std::endl;
+	cpp_file << "\t// You can put something here or not, I don't care, it's your program" << std::endl;
 	cpp_file <<  "}" << std::endl;
 
-	hpp_file << "class\t" << av[1] << std::endl;
+	string class_name_uppered = class_name;
+	str_toupper(&class_name_uppered);
+	hpp_file << "#ifndef __" << class_name_uppered << "_H__" << std::endl;
+	hpp_file << "# define __" << class_name_uppered << "_H__\n" << std::endl;
+	hpp_file << "class\t" << class_name << std::endl;
 	hpp_file << "{" << std::endl;
 	hpp_file << "\tprivate:\n" << std::endl;
 	hpp_file << "\tpublic:" << std::endl;
-	hpp_file << "\t\t" << av[1] << "(void);" << std::endl;
-	hpp_file << "\t\t" << "~" << av[1] << "(void);" << std::endl << std::endl;
-	hpp_file << "};" << std::endl;
+	hpp_file << "\t\t" << class_name << "(void);" << std::endl;
+	hpp_file << "\t\t" << "~" << class_name << "(void);" << std::endl << std::endl;
+	hpp_file << "};\n" << std::endl;
+	hpp_file << "#endif // __" << class_name_uppered << "_H__" << std::endl;
 
 	cpp_file.close();
 	hpp_file.close();
